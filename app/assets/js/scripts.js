@@ -163,7 +163,8 @@ app.hookupSteps = function() {
         userCoordinates = {};
     e && e.preventDefault();
     // if locate me icon has been clicked, find address by taking the geolocation
-    if ($(e.target).hasClass('fa-location-arrow')) {
+    if ($(e.target).hasClass('get-location')) {
+      $('#geolocate').val("Getting your location...");
       app.getCoords()
         .then(function(position) {
           userCoordinates.latitude  = position.coords.latitude;
@@ -177,7 +178,7 @@ app.hookupSteps = function() {
           $('#geolocate').val(value);
         })
         .catch(function() {
-          console.log("Unable to retrieve location data.")
+          $('#geolocate').val("Unable to retrieve location data.");
         });
     } else {
       address = $('#geolocate').val();
@@ -256,11 +257,10 @@ app.hookupSteps = function() {
     if ($('#geolocate').val().trim() !== '') app.geolocate();
   });
   $('#user-selected-radius').on('change', app.geolocate);
-  //$('#geolocate').on('change', app.geolocate);
   $('#geolocate').on('change', app.locateMeOrNot);
   $('#geolocateForm').on('submit', function(){ return false });
-  //$('#locate-me').on('click', app.geolocate);
   $('#locate-me').on('click', app.locateMeOrNot);
+  $('#locate-me-mobile-button').on('click', app.locateMeOrNot);
 };
 
 app.copyEventTitleToMarker = function(events, marker) {
@@ -299,6 +299,7 @@ app.hyperlink = Autolinker.link;
 
 // Populate events
 app.updateEvents = function(bounds) {
+  app.map.invalidateSize();
   var mapGeometry = {
     type: 'Polygon',
     coordinates: [[
