@@ -158,10 +158,35 @@ app.hookupSteps = function() {
     }, 800);
   });
 
-  var prevMarker, prevCircle;
-  app.geolocate = function(e) {
+  app.locateMeOrNot = function(e) {
+    var address,
+        userCoordinates = {};
     e && e.preventDefault();
-    var address = $('#geolocate').val();
+    // if locate me icon has been clicked, find address by taking the geolocation
+    if ($(e.target).hasClass('fa-location-arrow')) {
+      app.getCoords()
+        .then(function(position) {
+          userCoordinates.latitude  = position.coords.latitude;
+          userCoordinates.longitude = position.coords.longitude;
+          return userCoordinates;
+        }).then(function(address) {
+          address = app.reverseLookup(userCoordinates.latitude, userCoordinates.longitude);
+          return address;
+        }).then(function(value) {
+          app.geolocate(value);
+          $('#geolocate').val(value);
+        })
+        .catch(function() {
+          console.log("Unable to retrieve location data.")
+        });
+    } else {
+      address = $('#geolocate').val();
+      app.geolocate(address);
+    }
+  };
+
+  var prevMarker, prevCircle;
+  app.geolocate = function(address) {
     if (! address) { return }
     var city = undefined;
     var state = undefined;
@@ -231,9 +256,11 @@ app.hookupSteps = function() {
     if ($('#geolocate').val().trim() !== '') app.geolocate();
   });
   $('#user-selected-radius').on('change', app.geolocate);
-  $('#geolocate').on('change', app.geolocate);
+  //$('#geolocate').on('change', app.geolocate);
+  $('#geolocate').on('change', app.locateMeOrNot);
   $('#geolocateForm').on('submit', function(){ return false });
-
+  //$('#locate-me').on('click', app.geolocate);
+  $('#locate-me').on('click', app.locateMeOrNot);
 };
 
 app.copyEventTitleToMarker = function(events, marker) {
@@ -342,6 +369,58 @@ app.scrollToElement = function(el) {
   }, 800);
 };
 
+app.getCoords = function() {
+  return new Promise(function(resolve, reject) {
+    navigator.geolocation.getCurrentPosition(
+      function(position) {
+        resolve(position);
+      },
+
+      function(error) {
+        reject(error);
+      }
+    )
+  })
+};
+
+app.reverseLookup = function(latitude, longitude) {
+
+  return new Promise(function(resolve, reject) {
+
+    var url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + ',' + longitude,
+        addressComponents = {}, 
+        streetNumber = "", 
+        streetName = "",
+        formattedAddress = "",
+        i = 0;
+
+    $.getJSON(url, function(response) {
+      if (response.error || response.results.length === 0) {
+        console.log('Unable to locate address.', response.error);
+      }
+
+      addressComponents = response.results[0].address_components;
+
+      while (i < addressComponents.length) {
+
+        for (var j = 0; j < addressComponents[i].types.length; j++) {
+          if (addressComponents[i].types[j] === 'street_number') {
+            streetNumber = addressComponents[i].long_name;
+          } else if (addressComponents[i].types[j] === 'route') {
+            streetName = addressComponents[i].long_name;
+          }  
+        }
+
+        i++;
+      }
+
+      formattedAddress = streetNumber + " " + streetName;
+      resolve(formattedAddress);
+
+    });
+  });
+};
+
 app.geocode = function(address, city, state, callback, context) {
    var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + encodeURIComponent(address);
       url += '&components=locality:' + encodeURIComponent(city);
@@ -355,6 +434,7 @@ app.geocode = function(address, city, state, callback, context) {
     // Get the coordinates for the center of the city
     var location = response.results[0].geometry.location;
     var latlng = [location.lat, location.lng];
+
     callback.call(context || this, latlng);
   });
 };
