@@ -217,6 +217,22 @@
           30.265108
         ]
       }
+    },
+    {
+      "id": "douglas-county",
+      "type": "Feature",
+      "properties": {
+        "title": "Douglas County",
+        "background": "douglas-county.jpg",
+        "zoom": 11
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -97.746683,
+          30.265108
+        ]
+      }
     }
   ]
 }
