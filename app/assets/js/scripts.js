@@ -164,6 +164,8 @@ app.hookupSteps = function() {
     e && e.preventDefault();
     // if locate me icon has been clicked, find address by taking the geolocation
     if ($(e.target).hasClass('get-location')) {
+      $('#input-address').show();
+      $('#select-radius').show();
       $('#geolocate').val("Getting your location...");
       app.getCoords()
         .then(function(position) {
@@ -261,6 +263,10 @@ app.hookupSteps = function() {
   $('#geolocateForm').on('submit', function(){ return false });
   $('#locate-me').on('click', app.locateMeOrNot);
   $('#locate-me-mobile-button').on('click', app.locateMeOrNot);
+  $('#type-in-address-button').click(function() {
+    $('#input-address').show();
+    $('#select-radius').show();
+  });
 };
 
 app.copyEventTitleToMarker = function(events, marker) {
