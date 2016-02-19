@@ -53,6 +53,7 @@ strong {
   width: 100%;
   display: inline-block;
   font-weight: 700;
+  position: relative;
 }
 
 .bigButton:hover, .bigButton.selected {
@@ -137,6 +138,7 @@ header .logo {
   background-size: 272px 68px;
   height: 80px;
   width: 320px;
+  position: relative;
 }
 
 header h1 {
@@ -169,7 +171,11 @@ header .startButton {
 .slick-track {
   left: 0;
   right: 0;
-  height: 550px;
+  height: 510px;
+
+  @media (max-width: 893px) {
+    height: 600px;
+  }
 }
 
 .slick-slide {

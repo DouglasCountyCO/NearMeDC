@@ -20,6 +20,7 @@ $(document).ready(function() {
       autoplaySpeed: 5000,
       autoplay: true,
       fade: true,
+      zIndex: 1,
       cssEase: 'linear'
     });  
   });
