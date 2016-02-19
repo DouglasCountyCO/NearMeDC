@@ -9,7 +9,7 @@ describe Citygram::Routes::Page do
     end
     context 'ROOT_CITY_TAG is set' do
       before do
-        ENV['ROOT_CITY_TAG'] = 'new-york'
+        ENV['ROOT_CITY_TAG'] = 'san-diego'
       end
 
       it 'responds with 200 OK' do

@@ -1,11 +1,12 @@
 <script src="//api.tiles.mapbox.com/mapbox.js/plugins/turf/v2.0.0/turf.min.js"></script>
 
 <meta name="mapCenter" content="<%= @city.center.reverse.to_json %>">
-<style type="text/css">
+<!--<style type="text/css">
   header { background: url(<%= asset_path "cities/backgrounds/#{@city.background}" %>); }
-</style>
+</style>-->
 
 <header class="container-fluid">
+  <div id="carousel-content" class="slick-track"></div>
   <div class="row">
     <a href="/">
       <div class="col-xs-offset-1 col-md-offset-1 logo"></div>

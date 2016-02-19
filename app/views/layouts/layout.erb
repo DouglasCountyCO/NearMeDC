@@ -11,10 +11,18 @@
   <!--[if IE]><link rel="shortcut icon" href="<%= asset_path 'splash/parachute-indigo.png' %>" type="image/vnd.microsoft.icon" /><![endif]-->
 
   <!-- typekit -->
+  <script src="//use.typekit.net/fgr4sfu.js"></script>
+  <script>try{Typekit.load();}catch(e){}</script>
+
+  <!-- typekit -->
   <script src="https://use.typekit.net/zrv5ncb.js"></script>
   <script>try{Typekit.load({ async: true });}catch(e){}</script>
 
+  <!-- Mapbox -->
   <link rel="stylesheet" href="//api.tiles.mapbox.com/mapbox.js/v1.6.4/mapbox.css" />
+
+  <!-- Slick Library -->
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.5.9/slick.css"/>
 
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
@@ -36,8 +44,12 @@
   <!-- Latest compiled and minified JavaScript -->
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
+  <!-- Slick library -->
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.5.9/slick.min.js"></script>
+
   <!-- the highest quality javascripts -->
   <script type="text/javascript" src="<%= asset_path 'application.js' %>"></script>
+  <script type="text/javascript" src="<%= asset_path 'carousel.js' %>"></script>
   <%= erb :'layouts/analytics' %>
 
   <script>
