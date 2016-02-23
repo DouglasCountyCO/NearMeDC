@@ -134,11 +134,15 @@ header .row {
 }
 
 header .logo {
-  background: url(<%= asset_path 'icons/citygram-logo-white.png' %>) no-repeat;
-  background-size: 272px 68px;
-  height: 80px;
-  width: 320px;
+  background: url(<%= asset_path 'icons/douglas-county-colorado-logo.png' %>) no-repeat;
+  background-size: 400px 75px;
+  height: 85px;
+  width: 100%;
   position: relative;
+
+  @media (max-width: 450px) {
+    background-size: 375px 80px;
+  }
 }
 
 header h1 {
