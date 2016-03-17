@@ -1,5 +1,5 @@
 require 'open-uri'
-require 'pry'
+
 namespace :publishers do
   desc "Prompt publishers to update themselves"
   task update: :app do
