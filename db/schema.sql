@@ -2,12 +2,16 @@
 -- PostgreSQL database dump
 --
 
+-- Dumped from database version 9.5.0
+-- Dumped by pg_dump version 9.5.0
+
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
+SET row_security = off;
 
 --
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
@@ -72,7 +76,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: events; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: events; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE events (
@@ -108,7 +112,7 @@ ALTER SEQUENCE events_id_seq OWNED BY events.id;
 
 
 --
--- Name: http_requests; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: http_requests; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE http_requests (
@@ -128,7 +132,7 @@ CREATE TABLE http_requests (
 
 
 --
--- Name: publishers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: publishers; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE publishers (
@@ -169,7 +173,7 @@ ALTER SEQUENCE publishers_id_seq OWNED BY publishers.id;
 
 
 --
--- Name: schema_info; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: schema_info; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE schema_info (
@@ -178,7 +182,7 @@ CREATE TABLE schema_info (
 
 
 --
--- Name: subscriptions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: subscriptions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE subscriptions (
@@ -211,7 +215,7 @@ ALTER TABLE ONLY publishers ALTER COLUMN id SET DEFAULT nextval('publishers_id_s
 
 
 --
--- Name: events_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY events
@@ -219,7 +223,7 @@ ALTER TABLE ONLY events
 
 
 --
--- Name: http_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: http_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY http_requests
@@ -227,7 +231,7 @@ ALTER TABLE ONLY http_requests
 
 
 --
--- Name: publishers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: publishers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY publishers
@@ -235,7 +239,7 @@ ALTER TABLE ONLY publishers
 
 
 --
--- Name: subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY subscriptions
@@ -243,28 +247,28 @@ ALTER TABLE ONLY subscriptions
 
 
 --
--- Name: events_geom_gist; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: events_geom_gist; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX events_geom_gist ON events USING gist (geom);
 
 
 --
--- Name: events_publisher_id_feature_id_index; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: events_publisher_id_feature_id_index; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX events_publisher_id_feature_id_index ON events USING btree (publisher_id, feature_id);
 
 
 --
--- Name: publishers_endpoint_index; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: publishers_endpoint_index; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX publishers_endpoint_index ON publishers USING btree (endpoint);
 
 
 --
--- Name: subscriptions_geom_gist; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: subscriptions_geom_gist; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX subscriptions_geom_gist ON subscriptions USING gist (geom);

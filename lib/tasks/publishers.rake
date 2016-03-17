@@ -1,4 +1,5 @@
 require 'open-uri'
+require 'pry'
 namespace :publishers do
   desc "Prompt publishers to update themselves"
   task update: :app do
@@ -8,7 +9,7 @@ namespace :publishers do
   end
   desc "Download publishers from Citygram"
   task download: :app do
-    pub_file = open("https://www.citygram.org/publishers.json").read
+    pub_file = open("https://data.douglas.co.us/resource/jkpa-7hue.json").read
     publishers = JSON.parse(pub_file)
     Citygram::Models::Publisher.set_allowed_columns(
       :title, :endpoint, :active, :visible,
@@ -16,6 +17,7 @@ namespace :publishers do
       :event_display_endpoint, :events_are_polygons
     )
     publishers.each do |pub|
+      pub["tags"] = pub["tags"].split(' ')
       pub.delete("id")
       pub.delete("updated_at")
       pub.delete("created_at")

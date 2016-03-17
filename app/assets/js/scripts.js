@@ -17,7 +17,7 @@ app.hookupMap = function() {
   document.getElementById('locatormap').innerHTML = "<div id='map'><div class='map-key-panel js-dot-legend'><span class='map-event-dot'></span>Click to see notification</div></div>";
   var center = JSON.parse($('meta[name=mapCenter]').attr('content'));
   var options = {
-    zoom: 13,
+    zoom: 10,
     center: center,
     tileLayer: { detectRetina: true },
     scrollWheelZoom: false,
@@ -198,13 +198,14 @@ app.hookupSteps = function() {
     var usesLocality = $("#user-selected-locality");
     if (usesLocality && usesLocality.length == 0){
       var publisherSelection = $('.publisher.selected');
-      city = publisherSelection.data('publisher-city');
+      //city = publisherSelection.data('publisher-city');
+      console.log(city)
       state = publisherSelection.data('publisher-state');
     } else {
       // locality cannot activate without selection
       var localitySelection = $("#user-selected-locality a.selected");
       if (! localitySelection) { return }
-      city = localitySelection.data('city');
+      //city = localitySelection.data('city');
       state = localitySelection.data('state');
     }
     var radiusMiles = parseFloat($('#user-selected-radius').val());
@@ -213,9 +214,10 @@ app.hookupSteps = function() {
     var oneWeekAgo = new Date();
     oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
 
-    app.geocode(address, city, state, function(latlng) {
+    app.geocode(address, city, state, function(latlng, userCity) {
       // Set the new app state
       var center = new LatLon(latlng[0], latlng[1]);
+      var city = userCity;
       var bboxDistance = radiusKm;
       var bbox = center.boundingBox(bboxDistance);
       app.state.geom = JSON.stringify({
@@ -258,7 +260,8 @@ app.hookupSteps = function() {
   $('.publisher:not(.soon)').on('click', function(e) {
     if ($('#geolocate').val().trim() !== '') app.geolocate();
   });
-  $('#user-selected-radius').on('change', app.geolocate);
+  //$('#user-selected-radius').on('change', app.geolocate);
+  $('#user-selected-radius').on('change', app.locateMeOrNot);
   $('#geolocate').on('change', app.locateMeOrNot);
   $('#geolocateForm').on('submit', function(){ return false });
   $('#locate-me').on('click', app.locateMeOrNot);
@@ -347,14 +350,17 @@ app.selectTinyRadius = function() {
 
 app.displayEventMarker = function(event) {
   var geometry = JSON.parse(event.geom);
-  var marker;
-  var html = "<p>"+app.hyperlink(event.title)+"</p>"
+  var marker, html = "";
+  var titleArr = (app.hyperlink(event.title)).split("\n");
+  titleArr.forEach(function(item) {
+    html += item + "<br/>"
+  })
   if (app.eventsArePolygons) {
     marker = L.geoJson({"type": "Feature", "geometry": geometry});
   } else {
     marker = L.circleMarker([geometry.coordinates[1], geometry.coordinates[0]], { radius: 6, color: '#FC442A' })
   }
-  marker.addTo(app.map).bindPopup(html);
+  marker.addTo(app.map).bindPopup("<p>" + html + "</p>");
 
   app.eventMarkers.addLayer(marker);
   return marker;
@@ -429,8 +435,10 @@ app.reverseLookup = function(latitude, longitude) {
 };
 
 app.geocode = function(address, city, state, callback, context) {
+  var userCity;
    var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + encodeURIComponent(address);
-      url += '&components=locality:' + encodeURIComponent(city);
+      //url += '&components=locality:' + encodeURIComponent(city);
+      url += '&components=administrative_area_level_2:' + encodeURIComponent("Douglas County");
       url += '|administrative_area:' + encodeURIComponent(state);
 
   $.getJSON(url, function(response) {
@@ -438,11 +446,18 @@ app.geocode = function(address, city, state, callback, context) {
       console.log('Unable to geocode city. Womp Womp.', response.error);
     }
 
+    var addressComponents = response.results[0].address_components;
+    _.each(addressComponents, function(item) {
+      if (item['types'][0] === "locality") {
+        userCity = item['long_name']
+      }
+    })
+
     // Get the coordinates for the center of the city
     var location = response.results[0].geometry.location;
     var latlng = [location.lat, location.lng];
 
-    callback.call(context || this, latlng);
+    callback.call(context || this, latlng, userCity);
   });
 };
 
