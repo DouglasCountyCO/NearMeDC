@@ -91,6 +91,16 @@ app.hookupSteps = function() {
 
     app.setPublisher($publisher);
 
+    $('#step2 .fit-h4 a').text($publisher.data('publisher-title') + ' Dataset');
+    $.getJSON('https://data.douglas.co.us/resource/jkpa-7hue.json', function(data) {
+        data.forEach(function(item) {
+          if ($publisher.data('publisher-title') === item.title) {
+            console.log(item.dataset_id)
+            $('#source-dataset-link a').attr('href', 'https://data.douglas.co.us/d/' + item.dataset_id);
+          }
+        })
+    });
+
     // Remove disabled state styling from subscribe buttons
     $('.smsButton, .emailButton').removeClass('disabledButton');
 
