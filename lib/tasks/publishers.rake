@@ -1,8 +1,10 @@
 require 'open-uri'
+require 'pry'
 
 namespace :publishers do
   desc "Prompt publishers to update themselves"
   task update: :app do
+
     Publisher.active.select(:id, :endpoint).paged_each do |publisher|
       Citygram::Workers::PublisherPoll.perform_async(publisher.id, publisher.endpoint)
     end
@@ -21,6 +23,7 @@ namespace :publishers do
       pub.delete("id")
       pub.delete("updated_at")
       pub.delete("created_at")
+      pub.delete("dataset_id")
       new_pub = Citygram::Models::Publisher.new(pub)
       if new_pub.valid?
         puts "Saving #{new_pub.description}: #{new_pub.city} #{new_pub.state}"

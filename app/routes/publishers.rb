@@ -30,7 +30,7 @@ module Citygram::Routes
 
     get '/publishers/:publisher_id/events_count' do
       query = Event.where(publisher_id: params[:publisher_id])
-      
+
       if since = params[:since]
         query = query.where('created_at > ?', since)
       end
