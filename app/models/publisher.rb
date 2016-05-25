@@ -22,7 +22,6 @@ module Citygram::Models
 
     def validate
       super
-      #binding.pry
       validates_presence [:title, :endpoint, :city, :icon]
       validates_url :endpoint
       validates_url :event_display_endpoint unless (event_display_endpoint.nil?)
