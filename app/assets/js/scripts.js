@@ -255,7 +255,7 @@ app.hookupSteps = function() {
       app.getEventsCount(app.state.publisher_id, app.state.geom, oneWeekAgo, function(response) {
         $('#freqRadius').html(radiusMiles + ' mi');
         $('#freqAddress').html(address + ' ' + city + ', ' + state);
-        $('#freqNum').html(response.events_count + ' citygrams');
+        $('#freqNum').html(response.events_count + ' notifications');
       });
 
       app.showStep3();
@@ -410,8 +410,8 @@ app.reverseLookup = function(latitude, longitude) {
   return new Promise(function(resolve, reject) {
 
     var url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + ',' + longitude,
-        addressComponents = {}, 
-        streetNumber = "", 
+        addressComponents = {},
+        streetNumber = "",
         streetName = "",
         formattedAddress = "",
         i = 0;
@@ -430,7 +430,7 @@ app.reverseLookup = function(latitude, longitude) {
             streetNumber = addressComponents[i].long_name;
           } else if (addressComponents[i].types[j] === 'route') {
             streetName = addressComponents[i].long_name;
-          }  
+          }
         }
 
         i++;
