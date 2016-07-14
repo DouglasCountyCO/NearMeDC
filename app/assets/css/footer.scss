@@ -1,5 +1,5 @@
 footer {
-  background-color: #182a4a;
+  background-color: #00C446;
   color: white;
 
   p {
@@ -13,7 +13,34 @@ footer {
   }
 
   a {
-    display: inline-block;
+    float: left;
+    @media (max-width: 400px) {
+      text-align: center;
+      width: 100%;
+      display: block;
+    }
+  }
+  .plus-icon {
+    float: left;
+  }
+  #cr-logo {
+    height: 100px;
+  }
+  #dc-logo {
+    height: 30px;
+    margin: 35px 15px;
+  }
+  #clt-logo {
+    height: 50px;
+    margin: 25px 15px;
+  }
+  #hrmd-logo {
+    height: 30px;
+    margin: 35px 15px;
+  }
+  #par-logo {
+    height: 35px;
+    margin: 32.5px 15px;
   }
 }
 div.award {

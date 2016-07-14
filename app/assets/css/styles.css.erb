@@ -137,7 +137,7 @@ header .logo {
   background: url(<%= asset_path 'icons/douglas-county-colorado-logo.png' %>) no-repeat;
   background-size: 400px 75px;
   height: 85px;
-  width: 100%;
+  /*width: 100%;*/
   position: relative;
 
   @media (max-width: 450px) {
@@ -176,6 +176,14 @@ header .startButton {
   left: 0;
   right: 0;
   height: 510px;
+
+  @media (max-width: 1330px) {
+    height: 600px;
+  }
+
+  @media (max-width: 1280px) {
+    height: 650px;
+  }
 
   @media (max-width: 893px) {
     height: 600px;
@@ -394,7 +402,7 @@ section h4 {
       display: none;
     }
   }
-} 
+}
 
 
 /********************* digest *******************/
