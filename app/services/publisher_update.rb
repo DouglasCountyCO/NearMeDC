@@ -29,7 +29,6 @@ module Citygram
       end
 
       def new_events
-        binding.pry    qg
         @new_events ||= features.lazy.
           map(&method(:wrap_feature)).
           map(&method(:build_event)).
