@@ -1,5 +1,4 @@
 require 'date'
-require 'pry'
 
 module Citygram
   class DigestHelper
