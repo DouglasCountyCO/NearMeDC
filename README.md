@@ -1,8 +1,4 @@
-# Citygram [![Build Status](http://img.shields.io/travis/codeforamerica/citygram.svg)][travis] [![Dependency Status](http://img.shields.io/gemnasium/codeforamerica/citygram.svg)][gemnasium] [![Code Climate](http://img.shields.io/codeclimate/github/codeforamerica/citygram.svg)][codeclimate]
-
-[travis]: https://travis-ci.org/codeforamerica/citygram
-[gemnasium]: https://gemnasium.com/codeforamerica/citygram
-[codeclimate]: https://codeclimate.com/github/codeforamerica/citygram
+# Near Me DC
 
 __Citygram__ is a geographic notification platform designed to work with open government data. It allows residents to designate area(s) of a city they are interested in and subscribe to one or more topics. When an event for a desired topic occurs in the subscriber's area of interest, a notification (email, SMS, or [webhook]) is delivered. Citygram is a [Code for America] project by the [Charlotte] and [Lexington] teams for the [2014 fellowship].
 
