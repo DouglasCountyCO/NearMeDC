@@ -24,10 +24,12 @@ module Citygram
         dataset = Sequel::Model.db.dataset.with_sql(sql, new_events.map(&:id))
 
         dataset.paged_each do |pair|
+          # sends outs a text for each new event.
           Citygram::Workers::Notifier.perform_async(pair[:subscription_id], pair[:event_id])
         end
       end
 
+      # determines the unique events
       def new_events
         @new_events ||= features.lazy.
           map(&method(:wrap_feature)).
@@ -58,7 +60,7 @@ module Citygram
 
       # attempt to save the event, relying on
       # model validations for deduplication,
-      # select iff the event has not been seen before.
+      # select if the event has not been seen before.
       def save_event?(event)
         event.save
       end

@@ -33,6 +33,7 @@ module Citygram::Models
       super
       validates_presence [:title, :geom, :feature_id]
       validates_geometry :geom
+      # Validates the uniqueness of the event based on publisher id and feature id
       validates_unique [:publisher_id, :feature_id]
     end
   end
