@@ -31,11 +31,7 @@ module Citygram
 
       # determines the unique events
       def new_events
-        @new_events ||= features.lazy.
-          map(&method(:wrap_feature)).
-          map(&method(:build_event)).
-          select(&method(:save_event?)).
-          force
+        @new_events ||= features.lazy.map(&method(:wrap_feature)).map(&method(:build_event)).select(&method(:save_event?)).force
       end
 
       # wrap feature in a helper class to
@@ -62,7 +58,21 @@ module Citygram
       # model validations for deduplication,
       # select if the event has not been seen before.
       def save_event?(event)
-        event.save
+        Citygram::Models::Event.set_allowed_columns(
+          :title,
+          :geom,
+          :description,
+          :properties
+        )
+
+        if event.save
+          puts "Event is new"
+          event.save
+        else
+          puts "Event is old, updating"
+          existing_event = Citygram::Models::Event.where(:feature_id => event.feature_id, publisher_id => event.publisher_id)
+          existing_event.update(:title => event.title, :geom => event.geom, :description => event.description, :properties => event.properties)
+        end
       end
 
       class Feature < Struct.new(:data)

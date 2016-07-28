@@ -208,7 +208,6 @@ app.hookupSteps = function() {
     if (usesLocality && usesLocality.length == 0){
       var publisherSelection = $('.publisher.selected');
       //city = publisherSelection.data('publisher-city');
-      console.log(city)
       state = publisherSelection.data('publisher-state');
     } else {
       // locality cannot activate without selection

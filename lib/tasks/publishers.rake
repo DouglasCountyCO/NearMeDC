@@ -29,7 +29,20 @@ namespace :publishers do
         puts "Saving #{new_pub.description}: #{new_pub.city} #{new_pub.state}"
         new_pub.save
       else
-        puts "Skipping #{new_pub.description}: #{new_pub.city} #{new_pub.state}"
+        puts "Updating #{new_pub.description}: #{new_pub.city} #{new_pub.state}"
+        old_pub = Citygram::Models::Publisher.where(:endpoint => new_pub.endpoint)
+        old_pub.update(
+          :title => new_pub.title,
+          :active => new_pub.active,
+          :visible => new_pub.visible,
+          :city => new_pub.city,
+          :state => new_pub.state,
+          :icon => new_pub.icon,
+          :description => new_pub.description,
+          # :tags => new_pub.tags,
+          :event_display_endpoint => new_pub.event_display_endpoint,
+          :events_are_polygons => new_pub.events_are_polygons
+        )
       end
     end
   end

@@ -2,6 +2,7 @@ module Citygram::Models
   class Event < Sequel::Model
     many_to_one :publisher
 
+
     plugin :serialization, :geojson, :geom
     plugin :serialization, :pg_json, :properties
     plugin :geometry_validation
