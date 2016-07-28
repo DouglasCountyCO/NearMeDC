@@ -70,7 +70,7 @@ module Citygram
           event.save
         else
           puts "Event is old, updating"
-          existing_event = Citygram::Models::Event.where(:feature_id => event.feature_id, publisher_id => event.publisher_id)
+          existing_event = Citygram::Models::Event.find(:feature_id => event.feature_id, :publisher_id => event.publisher_id)
           existing_event.update(:title => event.title, :geom => event.geom, :description => event.description, :properties => event.properties)
         end
       end
