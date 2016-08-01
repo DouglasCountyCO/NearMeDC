@@ -1,3 +1,4 @@
+require 'pry'
 module Citygram
   module Services
     class PublisherUpdate < Struct.new(:features, :publisher)
@@ -69,6 +70,7 @@ module Citygram
           puts "Event is new"
           event.save
         else
+          binding.pry
           puts "Event is old, updating"
           existing_event = Citygram::Models::Event.find(:feature_id => event.feature_id, :publisher_id => event.publisher_id)
           existing_event.update(:title => event.title, :geom => event.geom, :description => event.description, :properties => event.properties)

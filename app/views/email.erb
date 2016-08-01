@@ -1,7 +1,7 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>Your Citygram Digest for the Week</title>
+  <title>Your NearMeDc Digest for the Week</title>
   <style media="all" type="text/css"></style>
   <style type="text/css"><%= Citygram::App.assets['application.css'].source %></style>
 </head>
@@ -13,12 +13,12 @@
         <table width="700px" cellspacing="0" cellpadding="0" class="emailContainer">
           <tr>
             <td>
-              <img src="<%= Citygram::Routes::Helpers.build_url(Citygram::App.application_url, "/assets/#{Citygram::App.assets['icons/citygram-logo-color.png'].digest_path}") %>" width="150" class="logo">
+              <img src="<%= Citygram::Routes::Helpers.build_url(Citygram::App.application_url, "/assets/#{Citygram::App.assets['icons/NearMeDC.png'].digest_path}") %>" width="150" class="logo">
               <h1>Latest <span class="topic"><%= subscription.publisher.title %></span>
                 for <span class="phone"><%= subscription.email_address || subscription.phone_number %></span></h1>
 
               <% single = events.count == 1 %>
-              <h5>In the last week, there <%=  single ? 'was' : 'were' %> <span class="orange"><%= events.count %> citygram<%= single ? '' : 's' %></span> for <span class="green"><%= subscription.publisher.title %></span> in the area you selected.</h5>
+              <h5>In the last week, there <%=  single ? 'was' : 'were' %> <span class="orange"><%= events.count %> notifications<%= single ? '' : 's' %></span> for <span class="green"><%= subscription.publisher.title %></span> in the area you selected.</h5>
               <h5>Here they are below, or view them <a href="<%= Citygram::Routes::Helpers.build_url(Citygram::App.application_url, "/digests/#{subscription.id}/events") %>" class="red">in a browser</a>.</h5>
                 <a href="<%= Citygram::Routes::Helpers.build_url(Citygram::App.application_url, "/unsubscribe/#{subscription.id}") %>">One-click Unsubscribe</a>
               <br><br>
