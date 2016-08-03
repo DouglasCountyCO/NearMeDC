@@ -30,7 +30,7 @@ module Citygram::Services::Channels
     def call
       self.class.mail(
         to: subscription.email_address,
-        subject: "Citygram #{subscription.publisher.title} notifications",
+        subject: "NearMeDC #{subscription.publisher.title} notifications",
         html_body: body,
       )
     end
