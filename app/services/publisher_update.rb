@@ -1,4 +1,3 @@
-require 'pry'
 module Citygram
   module Services
     class PublisherUpdate < Struct.new(:features, :publisher)
@@ -25,7 +24,6 @@ module Citygram
         dataset = Sequel::Model.db.dataset.with_sql(sql, new_events.map(&:id))
 
         # Consolidate the text messages with same event name and start and end date.
-        binding.pry
         dataset.paged_each do |pair|
           # sends outs a text for each new event.
           Citygram::Workers::Notifier.perform_async(pair[:subscription_id], pair[:event_id])
