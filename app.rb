@@ -29,7 +29,7 @@ module Citygram
 
     configure :production do
       require 'newrelic_rpm'
-      config.force_ssl = false
+      set :force_ssl, false
     end
   end
 end
