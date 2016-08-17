@@ -1,4 +1,3 @@
-require 'pry'
 module Citygram
   module Services
     class PublisherUpdate < Struct.new(:features, :publisher)
@@ -36,7 +35,6 @@ module Citygram
       # determines the unique events
       def new_events
         @new_events ||= features.lazy.map(&method(:wrap_feature)).map(&method(:build_event)).select(&method(:save_event?)).force
-        binding.pry
       end
 
       # wrap feature in a helper class to
