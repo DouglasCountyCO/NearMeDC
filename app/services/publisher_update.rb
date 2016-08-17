@@ -1,3 +1,4 @@
+require 'pry'
 module Citygram
   module Services
     class PublisherUpdate < Struct.new(:features, :publisher)
@@ -21,9 +22,11 @@ module Citygram
           WHERE events.id in ?
         SQL
 
-        dataset = Sequel::Model.db.dataset.with_sql(sql, new_events.map(&:id))
+        events = new_events.map { |event| { :id => event.id, :title => event.title} }
+        unique_events = events.uniq!{|event| event[:title] }
 
-        # Consolidate the text messages with same event name and start and end date.
+        dataset = Sequel::Model.db.dataset.with_sql(sql, unique_events.map { |event| event[:id] } )
+
         dataset.paged_each do |pair|
           # sends outs a text for each new event.
           Citygram::Workers::Notifier.perform_async(pair[:subscription_id], pair[:event_id])
@@ -33,6 +36,7 @@ module Citygram
       # determines the unique events
       def new_events
         @new_events ||= features.lazy.map(&method(:wrap_feature)).map(&method(:build_event)).select(&method(:save_event?)).force
+        binding.pry
       end
 
       # wrap feature in a helper class to
@@ -72,6 +76,7 @@ module Citygram
         else
           puts "Event is old, updating"
           existing_event = Citygram::Models::Event.find(:feature_id => event.feature_id, :publisher_id => event.publisher_id)
+          binding.pry
           existing_event.update(:title => event.title, :geom => event.geom, :description => event.description, :properties => event.properties)
         end
       end

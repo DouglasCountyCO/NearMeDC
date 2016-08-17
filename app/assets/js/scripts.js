@@ -170,7 +170,7 @@ app.hookupSteps = function() {
   app.locateMeOrNot = function(e) {
     var address,
         userCoordinates = {};
-    e && e.preventDefault();
+    // e && e.preventDefault();
     // if locate me icon has been clicked, find address by taking the geolocation
     if ($(e.target).hasClass('get-location')) {
       $('#input-address').show();
