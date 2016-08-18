@@ -40,9 +40,7 @@ module Citygram::Models
 
     def need_update(new_event)
       return true unless new_event.title == self.title
-      return true unless new_event.geom == self.geom
       return true unless new_event.description == self.description
-      return true unless new_event.properties == self.properties
       return false
     end
   end

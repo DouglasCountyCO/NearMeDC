@@ -70,15 +70,18 @@ module Citygram
         )
 
         if event.save
-          puts "Event is new"
+          # puts "Event is new"
           event.save
         else
-          puts "Event is old, updating"
+          # puts "Event is old, updating"
           existing_event = Citygram::Models::Event.find(:feature_id => event.feature_id, :publisher_id => event.publisher_id)
-          puts "Updating: " + existing_event.need_update(event).to_s
+          puts event.title.to_s + "Event are updating" unless !existing_event.need_update(event)
+
 
           if (existing_event.need_update(event))
             existing_event.update(:title => event.title, :geom => event.geom, :description => event.description, :properties => event.properties)
+          else
+            return nil
           end
         end
       end

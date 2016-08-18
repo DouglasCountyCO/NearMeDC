@@ -28,9 +28,15 @@ describe Citygram::Models::Event do
   end
 
   it 'checks if events needs to be updated' do
-    # old_event =
-    # new_event =
-    # expect(old_event.need_update(new_event)).to eq true
+    Citygram::Models::Event.set_allowed_columns(
+      :title,
+      :geom,
+      :description,
+      :properties
+    )
+    old_event = Event.new(:title => "This is an old event")
+    new_event = Event.new(:title => "This is a new event")
+    expect(old_event.need_update(new_event)).to eq true
   end
 
   it 'requires a feature_id' do
