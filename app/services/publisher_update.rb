@@ -21,11 +21,11 @@ module Citygram
           WHERE events.id in ?
         SQL
 
-        if new_events
-          events = new_events.map { |event| { :id => event.id, :title => event.title} }
-          unique_events = events.uniq!{|event| event[:title] }
-          dataset = Sequel::Model.db.dataset.with_sql(sql, unique_events.map { |event| event[:id] } )
-        end
+        # if new_events
+        #   events = new_events.map { |event| { :id => event.id, :title => event.title} }
+        #   unique_events = events.uniq!{|event| event[:title] }
+        #   dataset = Sequel::Model.db.dataset.with_sql(sql, unique_events.map { |event| event[:id] } )
+        # end
 
         dataset.paged_each do |pair|
           # sends outs a text for each new event.
