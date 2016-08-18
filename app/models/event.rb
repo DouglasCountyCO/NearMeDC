@@ -37,5 +37,13 @@ module Citygram::Models
       # Validates the uniqueness of the event based on publisher id and feature id
       validates_unique [:publisher_id, :feature_id]
     end
+
+    def need_update(new_event)
+      return true unless new_event.title == self.title
+      return true unless new_event.geom == self.geom
+      return true unless new_event.description == self.description
+      return true unless new_event.properties == self.properties
+      return false
+    end
   end
 end

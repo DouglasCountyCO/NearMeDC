@@ -27,6 +27,12 @@ describe Citygram::Models::Event do
     expect(event).not_to be_valid
   end
 
+  it 'checks if events needs to be updated' do
+    # old_event =
+    # new_event =
+    # expect(old_event.need_update(new_event)).to eq true
+  end
+
   it 'requires a feature_id' do
     event = build(:event, feature_id: '')
     expect(event).not_to be_valid

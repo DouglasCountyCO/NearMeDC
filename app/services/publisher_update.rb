@@ -23,7 +23,6 @@ module Citygram
 
         events = new_events.map { |event| { :id => event.id, :title => event.title} }
         unique_events = events.uniq!{|event| event[:title] }
-
         dataset = Sequel::Model.db.dataset.with_sql(sql, unique_events.map { |event| event[:id] } )
 
         dataset.paged_each do |pair|
@@ -74,8 +73,11 @@ module Citygram
         else
           puts "Event is old, updating"
           existing_event = Citygram::Models::Event.find(:feature_id => event.feature_id, :publisher_id => event.publisher_id)
-          binding.pry
-          existing_event.update(:title => event.title, :geom => event.geom, :description => event.description, :properties => event.properties)
+          puts "Updating: " + existing_event.need_update(event).to_s
+
+          if (existing_event.need_update(event))
+            existing_event.update(:title => event.title, :geom => event.geom, :description => event.description, :properties => event.properties)
+          end
         end
       end
 
