@@ -1,3 +1,4 @@
+require 'pry'
 module Citygram
   module Services
     class PublisherUpdate < Struct.new(:features, :publisher)
@@ -21,15 +22,18 @@ module Citygram
           WHERE events.id in ?
         SQL
 
-        # if new_events
-        #   events = new_events.map { |event| { :id => event.id, :title => event.title} }
-        #   unique_events = events.uniq!{|event| event[:title] }
-        #   dataset = Sequel::Model.db.dataset.with_sql(sql, unique_events.map { |event| event[:id] } )
-        # end
+        # Checks to see if there is any new/updated events, if there is send out notifications
+        if @new_events && @new_events.length > 0
+          events = @new_events.map { |event| { :id => event.id, :title => event.title} }
+          events = events.uniq!{|event| event[:title] }
 
-        dataset.paged_each do |pair|
-          # sends outs a text for each new event.
-          Citygram::Workers::Notifier.perform_async(pair[:subscription_id], pair[:event_id])
+          dataset = Sequel::Model.db.dataset.with_sql(sql, events.map(&:id))
+
+          dataset.paged_each do |pair|
+            # sends outs a text for each new event.
+            Citygram::Workers::Notifier.perform_async(pair[:subscription_id], pair[:event_id])
+          end
+
         end
       end
 
@@ -51,7 +55,7 @@ module Citygram
         Event.new do |e|
           e.publisher_id = publisher.id
           e.feature_id   = feature.id
-          e.title        = feature.title
+          e.title        = feature.title.squeeze(' ')
           e.description  = feature.description
           e.geom         = feature.geometry
           e.properties   = feature.properties
@@ -75,13 +79,12 @@ module Citygram
         else
           # puts "Event is old, updating"
           existing_event = Citygram::Models::Event.find(:feature_id => event.feature_id, :publisher_id => event.publisher_id)
-          puts event.title.to_s + "Event are updating" unless !existing_event.need_update(event)
+          puts event.title.to_s.gsub("\n", ' ').squeeze(' ') + "Event are updating" unless !existing_event.need_update(event)
 
 
           if (existing_event.need_update(event))
-            existing_event.update(:title => event.title, :geom => event.geom, :description => event.description, :properties => event.properties)
-          else
-            return nil
+            # binding.pry
+            existing_event.update(:title => event.title.squeeze(' '), :geom => event.geom, :description => event.description, :properties => event.properties)
           end
         end
       end

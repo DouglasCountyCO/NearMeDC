@@ -39,7 +39,7 @@ module Citygram::Models
     end
 
     def need_update(new_event)
-      return true unless new_event.title == self.title
+      return true unless new_event.title.squeeze(' ') == self.title.squeeze(' ')
       return true unless new_event.description == self.description
       return false
     end

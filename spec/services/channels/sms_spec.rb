@@ -10,7 +10,7 @@ describe Citygram::Services::Channels::SMS do
   let(:account_sid) { ENV.fetch('TWILIO_ACCOUNT_SID') }
   let(:auth_token) { ENV.fetch('TWILIO_AUTH_TOKEN') }
   let(:sms_endpoint) do
-    "https://%s:%s@api.twilio.com/2010-04-01/Accounts/%s/Messages.json" % [account_sid, auth_token, account_sid]
+    "https://dev-account-sid:dev-auth-token@api.twilio.com/2010-04-01/Accounts/dev-account-sid/Messages.json" % [account_sid, auth_token, account_sid]
   end
 
   let(:request_headers) do

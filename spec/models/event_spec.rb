@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'pry'
 
 describe Citygram::Models::Event do
   it 'belongs to a publisher' do
