@@ -24,6 +24,9 @@ module Citygram::Services::Channels
 
     def body
       events = Event.from_subscription(subscription)
+      if events && events.all
+        events = events.all.uniq{|x| x.title}
+      end
       ERB.new(BODY_TEMPLATE).result(binding)
     end
 
