@@ -83,7 +83,6 @@ module Citygram
 
 
           if (existing_event.need_update(event))
-            # binding.pry
             existing_event.update(:title => event.title.squeeze(' '), :geom => event.geom, :description => event.description, :properties => event.properties)
           end
         end
