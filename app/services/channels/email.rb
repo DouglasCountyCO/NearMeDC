@@ -28,10 +28,11 @@ module Citygram::Services::Channels
     end
 
     def call
+      puts subscription.email_address
       self.class.mail(
-        to: subscription.email_address,
-        subject: "NearMeDC #{subscription.publisher.title} notifications",
-        html_body: body,
+        :to => subscription.email_address,
+        :subject => "NearMeDC #{subscription.publisher.title} notifications",
+        :html_body => body,
       )
     end
   end

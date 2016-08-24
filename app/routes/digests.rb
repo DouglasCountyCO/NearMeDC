@@ -13,6 +13,9 @@ module Citygram::Routes
     get '/digests/:subscription_id/events' do
       @subscription = Subscription[params[:subscription_id]]
       @events = Event.from_subscription(@subscription, params)
+      if @events && @events.all
+        @events = @events.all.uniq{|x| x.title}
+      end
       erb :digest
     end
 
