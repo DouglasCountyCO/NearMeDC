@@ -1,3 +1,4 @@
+require 'pry'
 module Citygram
   module Services
     class PublisherUpdate < Struct.new(:features, :publisher)
