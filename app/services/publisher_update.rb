@@ -21,12 +21,17 @@ module Citygram
           WHERE events.id in ?
         SQL
 
+        @new_events = new_events
         # Checks to see if there is any new/updated events, if there is send out notifications
         if @new_events && @new_events.length > 0
           events = @new_events.map { |event| { :id => event.id, :title => event.title} }
-          events = events.uniq!{|event| event[:title] }
+          puts "There are " + events.length.to_s + " events"
+          events = events.uniq{|event| event[:title] }
+          puts "There are " + events.length.to_s + " unique events"
 
-          dataset = Sequel::Model.db.dataset.with_sql(sql, events.map(&:id))
+
+          puts "Sending text message notifications for " + events.length.to_s + " events"
+          dataset = Sequel::Model.db.dataset.with_sql(sql, events.map { |event| event[:id] })
 
           dataset.paged_each do |pair|
             # sends outs a text for each new event.
@@ -54,7 +59,7 @@ module Citygram
         Event.new do |e|
           e.publisher_id = publisher.id
           e.feature_id   = feature.id
-          e.title        = feature.title.squeeze(' ')
+          e.title        = feature.title
           e.description  = feature.description
           e.geom         = feature.geometry
           e.properties   = feature.properties
@@ -76,10 +81,9 @@ module Citygram
           # puts "Event is new"
           event.save
         else
-          # puts "Event is old, updating"
+          # puts "Event is old"
           existing_event = Citygram::Models::Event.find(:feature_id => event.feature_id, :publisher_id => event.publisher_id)
           puts event.title.to_s.gsub("\n", ' ').squeeze(' ') + "Event are updating" unless !existing_event.need_update(event)
-
 
           if (existing_event.need_update(event))
             existing_event.update(:title => event.title.squeeze(' '), :geom => event.geom, :description => event.description, :properties => event.properties)

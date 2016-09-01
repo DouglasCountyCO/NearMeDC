@@ -19,6 +19,15 @@ module Citygram::Workers
       # execute the request or raise
       response = connection.get
 
+      # compare database events to api events and remove events that are no longer in the api
+      api_data = response.body["features"].map{ |feature| feature["id"] }
+      puts "API Data Length: " + api_data.length.to_s
+      app_data = Citygram::Models::Event.where(:publisher_id => publisher_id).map{ |event| event.feature_id.to_s }
+      puts "Database Data Length: " + app_data.length.to_s
+      diff = app_data - api_data
+      puts "Removing " + diff.length.to_s + " old events"
+      remove_old_events(diff)
+
       # save any new events
       feature_collection = response.body
       new_events = Citygram::Services::PublisherUpdate.call(feature_collection.fetch('features'), publisher)
@@ -43,6 +52,12 @@ module Citygram::Workers
       current_page = URI.parse(current_page)
 
       next_page.host == current_page.host
+    end
+
+    def remove_old_events(event_ids)
+      event_ids.each do |id|
+        Citygram::Models::Event.where(:feature_id => id).delete
+      end
     end
   end
 end

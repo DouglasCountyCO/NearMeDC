@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'pry'
 
 describe Citygram::Models::Event do
   it 'belongs to a publisher' do
@@ -8,7 +7,7 @@ describe Citygram::Models::Event do
   end
 
   it 'whitelists mass-assignable attributes' do
-    expect(Event.allowed_columns).to eq []
+    expect(Event.allowed_columns).to eq [:title, :geom, :description, :properties]
   end
 
   it 'round trip a geojson geometry through a postgis geometry column' do
@@ -29,14 +28,8 @@ describe Citygram::Models::Event do
   end
 
   it 'checks if events needs to be updated' do
-    Citygram::Models::Event.set_allowed_columns(
-      :title,
-      :geom,
-      :description,
-      :properties
-    )
-    old_event = Event.new(:title => "This is an old event")
-    new_event = Event.new(:title => "This is a new event")
+    old_event = build(:event, title: 'This is an old event')
+    new_event = build(:event, title: 'This is a new event')
     expect(old_event.need_update(new_event)).to eq true
   end
 
