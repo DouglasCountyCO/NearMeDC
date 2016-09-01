@@ -56,7 +56,7 @@ module Citygram::Workers
     end
 
     def remove_all_events
-      Citygram::Models::Event.destroy_all
+      Citygram::Models::Event.all.destroy_all
     end
     def remove_old_events(event_ids)
       event_ids.each do |id|
