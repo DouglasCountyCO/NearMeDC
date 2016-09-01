@@ -1,6 +1,5 @@
 require 'app/services/connection_builder'
 require 'app/services/publisher_update'
-require 'pry'
 
 module Citygram::Workers
   class PublisherPoll
@@ -26,8 +25,8 @@ module Citygram::Workers
       app_data = Citygram::Models::Event.where(:publisher_id => publisher_id).map{ |event| event.feature_id.to_s }
       puts "Database Data Length: " + app_data.length.to_s
       diff = app_data - api_data
+      puts diff
       puts "Removing " + diff.length.to_s + " old events"
-      binding.pry
       remove_old_events(diff)
 
       # save any new events
