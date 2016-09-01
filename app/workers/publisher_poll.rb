@@ -27,7 +27,7 @@ module Citygram::Workers
       diff = app_data - api_data
       puts diff
       puts "Removing " + diff.length.to_s + " old events"
-      remove_all_events
+      remove_old_events(diff)
 
       # save any new events
       feature_collection = response.body
@@ -55,9 +55,6 @@ module Citygram::Workers
       next_page.host == current_page.host
     end
 
-    def remove_all_events
-      Event.dataset.destroy
-    end
     def remove_old_events(event_ids)
       event_ids.each do |id|
         Citygram::Models::Event.where(:feature_id => id).delete
