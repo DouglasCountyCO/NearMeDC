@@ -19,19 +19,23 @@ module Citygram::Workers
       # execute the request or raise
       response = connection.get
 
-      # compare database events to api events and remove events that are no longer in the api
-      api_data = response.body["features"].map{ |feature| feature["id"] }
-      puts "API Data Length: " + api_data.length.to_s
-      app_data = Citygram::Models::Event.where(:publisher_id => publisher_id).map{ |event| event.feature_id.to_s }
-      puts "Database Data Length: " + app_data.length.to_s
-      diff = app_data - api_data
-      puts diff
-      puts "Removing " + diff.length.to_s + " old events"
-      remove_old_events(diff, publisher_id)
+      # Check to make sure the api endpoint is working before deleting any events.
+      if response.status == 200
 
-      # save any new events
-      feature_collection = response.body
-      new_events = Citygram::Services::PublisherUpdate.call(feature_collection.fetch('features'), publisher)
+        # compare database events to api events and remove events that are no longer in the api
+        api_data = response.body["features"].map{ |feature| feature["id"] }
+        puts "API Data Length: " + api_data.length.to_s
+        app_data = Citygram::Models::Event.where(:publisher_id => publisher_id).map{ |event| event.feature_id.to_s }
+        puts "Database Data Length: " + app_data.length.to_s
+        diff = app_data - api_data
+        puts diff
+        puts "Removing " + diff.length.to_s + " old events"
+        remove_old_events(diff, publisher_id)
+
+        # save any new events
+        feature_collection = response.body
+        new_events = Citygram::Services::PublisherUpdate.call(feature_collection.fetch('features'), publisher)
+      end
 
       # OPTIONAL PAGINATION:
       #
