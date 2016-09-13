@@ -46,4 +46,9 @@ describe Citygram::Models::Publisher do
     publisher = build(:publisher, city: '')
     expect(publisher).not_to be_valid
   end
+
+
+  it 'sends a new sms message when properties of an event are updated' do
+
+  end
 end

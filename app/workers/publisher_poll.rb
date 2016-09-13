@@ -27,7 +27,7 @@ module Citygram::Workers
       diff = app_data - api_data
       puts diff
       puts "Removing " + diff.length.to_s + " old events"
-      remove_old_events(diff)
+      remove_old_events(diff, publisher_id)
 
       # save any new events
       feature_collection = response.body
@@ -38,10 +38,10 @@ module Citygram::Workers
       # iff successful to this point, and a next page is given
       # queue up a job to retrieve the next page
       #
-      next_page = response.headers[NEXT_PAGE_HEADER]
-      if new_events.any? && valid_next_page?(next_page, url) && page_number < MAX_PAGE_NUMBER
-        self.class.perform_async(publisher_id, next_page, page_number + 1)
-      end
+      # next_page = response.headers[NEXT_PAGE_HEADER]
+      # if new_events.any? && valid_next_page?(next_page, url) && page_number < MAX_PAGE_NUMBER
+      #   self.class.perform_async(publisher_id, next_page, page_number + 1)
+      # end
     end
 
     private
@@ -55,9 +55,9 @@ module Citygram::Workers
       next_page.host == current_page.host
     end
 
-    def remove_old_events(event_ids)
+    def remove_old_events(event_ids, publisher_id)
       event_ids.each do |id|
-        Citygram::Models::Event.where(:feature_id => id).delete
+        Citygram::Models::Event.where(:feature_id => id, :publisher_id => publisher_id).delete
       end
     end
   end

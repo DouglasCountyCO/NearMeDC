@@ -12,7 +12,7 @@ module Citygram
 
       def queue_notifications
         sql = <<-SQL.dedent
-          SELECT subscriptions.id AS subscription_id, events.id AS event_id
+          SELECT subscriptions.id AS subscription_id, events.feature_id AS event_id
           FROM subscriptions INNER JOIN events
             ON ST_Intersects(subscriptions.geom, events.geom)
             AND subscriptions.publisher_id = events.publisher_id
@@ -32,7 +32,6 @@ module Citygram
 
           puts "Sending text message notifications for " + events.length.to_s + " events"
           dataset = Sequel::Model.db.dataset.with_sql(sql, events.map { |event| event[:id] })
-
           dataset.paged_each do |pair|
             # sends outs a text for each new event.
             Citygram::Workers::Notifier.perform_async(pair[:subscription_id], pair[:event_id])
@@ -41,7 +40,6 @@ module Citygram
         end
       end
 
-      # determines the unique events
       def new_events
         @new_events ||= features.lazy.map(&method(:wrap_feature)).map(&method(:build_event)).select(&method(:save_event?)).force
       end
@@ -76,9 +74,7 @@ module Citygram
           :description,
           :properties
         )
-
         if event.save
-          # puts "Event is new"
           event.save
         else
           # puts "Event is old"
