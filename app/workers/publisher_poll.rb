@@ -1,5 +1,6 @@
 require 'app/services/connection_builder'
 require 'app/services/publisher_update'
+require 'pry'
 
 module Citygram::Workers
   class PublisherPoll
@@ -23,18 +24,19 @@ module Citygram::Workers
       if response.status == 200
 
         # compare database events to api events and remove events that are no longer in the api
+        puts ("Updating Publisher " + publisher_id.to_s + ": " + publisher.title).green
         api_data = response.body["features"].map{ |feature| feature["id"] }
-        puts "API Data Length: " + api_data.length.to_s
+        puts ("Publisher " + publisher_id.to_s + " number of API events: " + api_data.length.to_s).yellow
         app_data = Citygram::Models::Event.where(:publisher_id => publisher_id).map{ |event| event.feature_id.to_s }
-        puts "Database Data Length: " + app_data.length.to_s
+        puts ("Publisher " + publisher_id.to_s + " number of database events: " + app_data.length.to_s).yellow
         diff = app_data - api_data
-        puts diff
-        puts "Removing " + diff.length.to_s + " old events"
+        puts ("Publisher " + publisher_id.to_s + " Removing " + diff.length.to_s + " old events").red
         remove_old_events(diff, publisher_id)
 
         # save any new events
         feature_collection = response.body
         new_events = Citygram::Services::PublisherUpdate.call(feature_collection.fetch('features'), publisher)
+        puts ("Publisher " + publisher_id.to_s + " Adding " + new_events.length.to_s + " new events").green
       end
 
       # OPTIONAL PAGINATION:

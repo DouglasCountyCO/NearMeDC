@@ -35,6 +35,7 @@ GEM
     coderay (1.1.1)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
+    colorize (0.8.1)
     concurrent-ruby (1.0.2)
     connection_pool (2.2.0)
     crack (0.4.3)
@@ -174,6 +175,7 @@ PLATFORMS
 DEPENDENCIES
   activesupport
   airbrake
+  colorize
   dedent
   dotenv (~> 1.0)
   factory_girl

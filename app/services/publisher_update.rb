@@ -25,9 +25,9 @@ module Citygram
         # Checks to see if there is any new/updated events, if there is send out notifications
         if @new_events && @new_events.length > 0
           events = @new_events.map { |event| { :id => event.id, :title => event.title} }
-          puts "There are " + events.length.to_s + " events"
+          puts ("There are " + events.length.to_s + " events").green
           events = events.uniq{|event| event[:title] }
-          puts "There are " + events.length.to_s + " unique events"
+          puts ("There are " + events.length.to_s + " unique events").green
 
 
           puts "Sending text message notifications for " + events.length.to_s + " events"

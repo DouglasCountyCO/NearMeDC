@@ -28,6 +28,7 @@ gem 'twilio-ruby', '~> 4.11.1'
 gem 'uglifier'
 gem 'unicorn'
 gem 'underscore-rails', '~> 1.8', '>= 1.8.3'
+gem 'colorize'
 
 group :production do
   gem 'newrelic_rpm', require: false
