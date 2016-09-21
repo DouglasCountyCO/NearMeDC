@@ -1,6 +1,5 @@
 require 'app/services/connection_builder'
 require 'app/services/publisher_update'
-require 'pry'
 
 module Citygram::Workers
   class PublisherPoll
