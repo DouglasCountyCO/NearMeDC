@@ -15,18 +15,28 @@ module Citygram::Models
       end
 
       def from_geom(geom_ewkt, params)
-        after_date = params[:after_date] || 7.days.ago
-        before_date = params[:before_date] || DateTime.now
+        after_date = params[:after_date]
+        before_date = params[:before_date]
 
-        with_sql(<<-SQL, params.fetch(:publisher_id), after_date, before_date, geom_ewkt)
-          SELECT events.*
-          FROM events
-          WHERE events.publisher_id = ?
-            AND events.created_at > ?
-            AND events.created_at <= ?
-            AND ST_Intersects(events.geom, ?::geometry)
-          ORDER BY events.created_at DESC
-        SQL
+        if after_date && before_date
+          with_sql(<<-SQL, params.fetch(:publisher_id), after_date, before_date, geom_ewkt)
+            SELECT events.*
+            FROM events
+            WHERE events.publisher_id = ?
+              AND events.created_at > ?
+              AND events.created_at <= ?
+              AND ST_Intersects(events.geom, ?::geometry)
+            ORDER BY events.created_at DESC
+          SQL
+        else
+          with_sql(<<-SQL, params.fetch(:publisher_id), geom_ewkt)
+            SELECT events.*
+            FROM events
+            WHERE events.publisher_id = ?
+              AND ST_Intersects(events.geom, ?::geometry)
+            ORDER BY events.created_at DESC
+          SQL
+        end
       end
     end
 
