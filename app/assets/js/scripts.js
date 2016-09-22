@@ -220,7 +220,7 @@ app.hookupSteps = function() {
     var radiusKm =radiusMiles * 1.60934
     var radiusMeters = radiusKm * 1000;
     var oneWeekAgo = new Date();
-    oneWeekAgo.setDate(oneWeekAgo.getDate() - 365);
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
 
     app.geocode(address, city, state, function(latlng, userCity) {
       // Set the new app state
