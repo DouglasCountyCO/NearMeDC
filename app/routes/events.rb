@@ -10,7 +10,7 @@ module Citygram::Routes
     helpers Citygram::Routes::Helpers
 
     desc <<-DESC
-      Retrieve events from the last week for a publisher, intersecting a given geometry
+      Retrieve events for a publisher, intersecting a given geometry
     DESC
 
     params do
