@@ -18,7 +18,7 @@
                 for <span class="phone"><%= subscription.email_address || subscription.phone_number %></span></h1>
 
               <% single = events.count == 1 %>
-              <h5>In the last week, there <%=  single ? 'was' : 'were' %> <span class="orange"><%= events.count %> notifications<%= single ? '' : 's' %></span> for <span class="green"><%= subscription.publisher.title %></span> in the area you selected.</h5>
+              <h5>In the last week, there <%=  single ? 'was' : 'were' %> <span class="orange"><%= events.count %> notification<%= single ? '' : 's' %></span> for <span class="green"><%= subscription.publisher.title %></span> in the area you selected.</h5>
               <h5>Here they are below, or view them <a href="<%= Citygram::Routes::Helpers.build_url(Citygram::App.application_url, "/digests/#{subscription.id}/events") %>" class="red">in a browser</a>.</h5>
                 <a href="<%= Citygram::Routes::Helpers.build_url(Citygram::App.application_url, "/unsubscribe/#{subscription.id}") %>">One-click Unsubscribe</a>
               <br><br>
