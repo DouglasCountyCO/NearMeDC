@@ -31,7 +31,7 @@ describe Citygram::Workers::SubscriptionConfirmation do
 
       it { is_expected.to have_sent_email.from(from_email_address) }
       it { is_expected.to have_sent_email.to(to_email_address) }
-      it { is_expected.to have_sent_email.with_subject("Citygram: You're subscribed to #{publisher.city} #{publisher.title}") }
+      it { is_expected.to have_sent_email.with_subject("NearMeDC: You're subscribed to #{publisher.city} #{publisher.title}") }
       # it { is_expected.to have_sent_email.with_html_body("<p>Thank you for subscribing!</p>") }
     end
   end
@@ -41,7 +41,7 @@ describe Citygram::Workers::SubscriptionConfirmation do
     let!(:subscription) { create(:subscription, channel: 'sms', phone_number: '212-555-1234') }
 
     before do
-      body = "Welcome! You are now subscribed to #{publisher.title} in #{publisher.city}. To see current Citygrams please visit #{subject.digest_url(subscription)}. To unsubscribe from all messages, reply REMOVE."
+      body = "Welcome! You are now subscribed to #{publisher.title} in #{publisher.city}. To see current notifications please visit #{subject.digest_url(subscription)}. To unsubscribe from all messages, reply STOP."
 
       stub_request(:post, "https://dev-account-sid:dev-auth-token@api.twilio.com/2010-04-01/Accounts/dev-account-sid/Messages.json").
         with(body: {
@@ -54,7 +54,7 @@ describe Citygram::Workers::SubscriptionConfirmation do
           'from' => '15555555555',
           'body' => body,
           'status' => 'queued'
-        }.to_json)
+        }.to_json, :headers => {})
     end
 
     it 'retrieves the subscription of interest' do

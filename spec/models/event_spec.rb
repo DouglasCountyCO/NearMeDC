@@ -58,7 +58,8 @@ describe Citygram::Models::Event do
       geom = GeoRuby::GeojsonParser.new.parse(polygon).as_ewkt
       events = Event.from_geom(geom, {
         publisher_id: publisher.id,
-        after_date: 2.days.ago,
+        before_date: 1.days.ago,
+        after_date: 2.days.ago
       })
 
       expect(events.first.title).to eq perfect.title
@@ -74,6 +75,7 @@ describe Citygram::Models::Event do
       events = Event.from_geom(geom, {
         publisher_id: publisher.id,
         before_date: 2.days.ago,
+        after_date: 7.days.ago
       })
 
       expect(events.first.title).to eq perfect.title
