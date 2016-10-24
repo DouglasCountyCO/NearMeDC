@@ -25,9 +25,7 @@ module Citygram::Routes
     end
 
     def build_url(base, path, params = {})
-      url = URI(base)
-      url.path = path if path
-      url.query = Rack::Utils.build_query(params) if params.any?
+      url = URI.join(base, path ? path : "", params.any? ? Rack::Utils.build_query(params) : "")
       url.to_s
     end
 

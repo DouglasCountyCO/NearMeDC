@@ -37,7 +37,7 @@ end
 group :development do
   gem 'foreman'
   gem 'pry'
-end
+ end
 
 group :test do
   gem 'factory_girl'

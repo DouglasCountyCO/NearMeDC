@@ -95,7 +95,7 @@ For Heroku Scheduler users, there is a task that can be executed multiple times,
 but will only deliver mail on the environment's `DIGEST_DAYS`.
 
 ```
-ENV['DIGEST_DAYS'] = 'monda,ywednesday,friday'
+ENV['DIGEST_DAYS'] = 'monday,wednesday,friday'
 rake digests:send_if_digest_day
 ```
 

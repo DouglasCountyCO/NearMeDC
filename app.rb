@@ -26,7 +26,6 @@ module Citygram
       set :erb, escape_html: true,
                 layout_options: { views: 'app/views/layouts' }
     end
-
     configure :production do
       require 'newrelic_rpm'
       require 'rack/ssl'
