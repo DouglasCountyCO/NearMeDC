@@ -18,21 +18,21 @@ module Citygram
             AND subscriptions.publisher_id = events.publisher_id
             AND subscriptions.unsubscribed_at IS NULL
             AND channel <> 'email'
-          WHERE events.id in ?
+          WHERE events.feature_id in ?
         SQL
 
         @new_events = new_events
+
         # Checks to see if there is any new/updated events, if there is send out notifications
         if @new_events && @new_events.length > 0
-          events = @new_events.map { |event| { :id => event.id, :title => event.title} }
+          events = @new_events.map { |event| { :id => event.feature_id, :title => event.title} }
           puts ("There are " + events.length.to_s + " events").green
           events = events.uniq{|event| event[:title] }
           puts ("There are " + events.length.to_s + " unique events").green
 
-
-          puts "Sending text message notifications for " + events.length.to_s + " events"
           dataset = Sequel::Model.db.dataset.with_sql(sql, events.map { |event| event[:id] })
           dataset.paged_each do |pair|
+            puts "Sending text message notifications for " + events.length.to_s + " events"
             # sends outs a text for each new event.
             Citygram::Workers::Notifier.perform_async(pair[:subscription_id], pair[:event_id])
           end
@@ -42,6 +42,7 @@ module Citygram
 
       def new_events
         @new_events ||= features.lazy.map(&method(:wrap_feature)).map(&method(:build_event)).select(&method(:save_event?)).force
+        return @new_events
       end
 
       # wrap feature in a helper class to

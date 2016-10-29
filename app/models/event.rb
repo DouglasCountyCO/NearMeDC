@@ -23,10 +23,10 @@ module Citygram::Models
             SELECT events.*
             FROM events
             WHERE events.publisher_id = ?
-              AND events.created_at > ?
-              AND events.created_at <= ?
+              AND events.updated_at > ?
+              AND events.updated_at <= ?
               AND ST_Intersects(events.geom, ?::geometry)
-            ORDER BY events.created_at DESC
+            ORDER BY events.updated_at DESC
           SQL
         else
           with_sql(<<-SQL, params.fetch(:publisher_id), geom_ewkt)
@@ -34,7 +34,7 @@ module Citygram::Models
             FROM events
             WHERE events.publisher_id = ?
               AND ST_Intersects(events.geom, ?::geometry)
-            ORDER BY events.created_at DESC
+            ORDER BY events.updated_at DESC
           SQL
         end
       end
