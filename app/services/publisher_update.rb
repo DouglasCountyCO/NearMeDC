@@ -1,4 +1,4 @@
-module Citygram
+pmodule Citygram
   module Services
     class PublisherUpdate < Struct.new(:features, :publisher)
       def self.call(features, publisher)
