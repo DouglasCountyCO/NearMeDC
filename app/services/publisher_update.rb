@@ -1,4 +1,4 @@
-module Citygram
+pmodule Citygram
   module Services
     class PublisherUpdate < Struct.new(:features, :publisher)
       def self.call(features, publisher)
@@ -6,7 +6,8 @@ module Citygram
       end
 
       def call
-        queue_notifications
+        # Uncomment to re-enable sms messages
+        # queue_notifications
         return new_events
       end
 
