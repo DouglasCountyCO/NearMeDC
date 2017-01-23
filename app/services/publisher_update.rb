@@ -6,8 +6,7 @@ pmodule Citygram
       end
 
       def call
-        # Uncomment to re-enable sms messages
-        # queue_notifications
+        queue_notifications
         return new_events
       end
 
