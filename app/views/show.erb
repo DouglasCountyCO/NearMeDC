@@ -9,28 +9,28 @@
   <div id="carousel-content" class="slick-track"></div>
   <div class="row">
     <a href="/">
-      <div class="col-xs-offset-1 col-md-offset-1 logo"></div>
+      <div class="col-md-offset-1 logo"></div>
     </a>
   </div>
   <div class="row">
-    <h1 id="title" class="col-xs-offset-1 col-md-offset-1 col-md-10">Subscribe to <span class="no-wrap">Douglas County</span>.</h1>
+    <h1 id="title" class="col-md-offset-1 col-md-10">Subscribe to <span class="no-wrap">Douglas County</span>.</h1>
   </div>
   <div class="row">
-    <h3 class="col-xs-offset-1 col-xs-10 col-md-offset-1 col-md-5">Get updates on the topics and areas you care about in <span class="no-wrap">Douglas County</span>.</h3>
+    <h3 class="col-xs-12 col-md-offset-1 col-md-5">Get updates on the topics and areas you care about in <span class="no-wrap">Douglas County</span>.</h3>
     <div id="start" class="hidden-xs hidden-sm col-md-offset-3 bigButton startButton">Get started</div>
   </div>
 </header>
 
 <section id="step1" class="container-fluid">
   <div class="instruction row">
-    <div class="col-xs-offset-1 col-md-offset-1 col-md-11">
+    <div class="col-md-offset-1 col-md-11">
       <h2 class="fit-h2">1. Select a topic.</h2>
       <h3 class="fit-h3">Choose one to start, and you can add more later.</h3>
     </div>
   </div>
 
   <div class="row">
-    <div class="publishers col-xs-offset-1 col-md-offset-1 col-md-11">
+    <div class="publishers col-md-offset-1 col-md-11">
       <!--[if lt IE 10]>
           <p class="alert alert-danger">You are using an older browser that is not currently supported. <a href="http://whatbrowser.org/">Upgrade your browser today</a> to fully use the site.</p>
       <![endif]-->
@@ -59,7 +59,7 @@
 
 <section id="step2" class="container-fluid">
   <div class="instruction row">
-    <div class="col-xs-offset-1 col-xs-10 col-md-offset-1 col-md-10">
+    <div class="col-xs-12 col-md-offset-1 col-md-10">
       <h2 class="fit-h2">2. What's your address?</h2>
       <h3 class="fit-h3">Your home, your work, or wherever's important to you.</h3>
       <h4 id="source-dataset-link" class="fit-h4">Source Dataset: <a href="#" target="_blank">Community Resources Dataset</a></h4>
@@ -68,19 +68,19 @@
 
   <div class="row">
     <form id="geolocateForm" role="form" novalidate>
-        <div id="locate-me-mobile" class="col-xs-offset-1 col-xs-10 col-md-offset-1 col-md-5">
+        <div id="locate-me-mobile" class="col-xs-12 col-md-offset-1 col-md-5">
           <button id="type-in-address-button" class="btn-info"><i class="fa fa-keyboard-o fa-2x"></i></button>
           <button id="locate-me-mobile-button" class="btn-info get-location"><i class="fa fa-location-arrow fa-2x get-location"></i></button>
           <!-- <button id="locate-me-mobile-button" class="btn-info get-location hide">Click for Location</button> -->
         </div>
 
-        <div id="input-address" class="col-xs-offset-1 col-xs-10 col-md-offset-1 col-md-5">
+        <div id="input-address" class="col-xs-12 col-md-offset-1 col-md-5">
           <button id="locate-me"><i class="fa fa-location-arrow fa-2x get-location"></i></button>
           <input type="text" name="user-address" id="geolocate" placeholder="Your address" required></input>
           <!--<input type="text" name="user-city" id="geolocate" placeholder="City" required></input>-->
         </div>
 
-        <div id="select-radius" class="col-xs-offset-1 col-md-offset-0 col-xs-10 col-md-5">
+        <div id="select-radius" class="col-md-offset-0 col-xs-12 col-md-5">
           <span class="bigSelect">
             <select id="user-selected-radius">
               <option value="0.1">Within a 1/10 mile (about a stone's throw)</option>
@@ -124,33 +124,33 @@
 
 <section id="step3" class="container-fluid">
   <div class="instruction row">
-    <div class="col-xs-offset-1 col-xs-10 col-md-offset-1 col-md-10">
+    <div class="col-xs-12 col-md-offset-1 col-md-10">
       <h2 class="fit-h2">3. Want to be notified?</h2>
       <h3 class="fit-h3">Get a weekly email digest of the events around you.</h3>
     </div>
   </div>
 
   <div class="channelButtons row">
-    <div class="col-xs-offset-1 col-xs-10 col-md-offset-1 col-md-10">
+    <div class="col-xs-12 col-md-offset-1 col-md-10">
       <div class="bigButton greenButton emailButton disabledButton"><span>email</span></div>
     </div>
   </div>
 
   <div class="disabledInfo row" style="display:none">
-    <div class="col-xs-offset-1 col-xs-10 col-md-offset-1 col-md-10">
+    <div class="col-xs-12 col-md-offset-1 col-md-10">
       <h2 class="orange">Oops! Select a topic and an area first.</h2>
     </div>
   </div>
 
   <div class="extraInfo row" style="display:none">
     <form id="subscribeForm">
-      <div class="col-xs-offset-1 col-xs-10 col-md-7 channel-inputs">
+      <div class="col-xs-12 col-md-7 channel-inputs">
         <input type="text" style="display:none" class="js-channel-sms phoneNumber" placeholder="phone number">
         <input type="email" style="display:none" class="js-channel-email emailAddress" placeholder="email">
       </div>
       <input type="submit" style="display:none"/>
     </form>
-    <div class="col-xs-offset-1 col-xs-10 col-md-offset-0 col-md-3">
+    <div class="col-xs-12 col-md-offset-0 col-md-3">
       <div class="bigButton orangeButton subscribeButton">subscribe</div>
     </div>
   <div>
@@ -158,7 +158,7 @@
 
 <section id="confirmation" class="container-fluid" style="display:none">
   <div class="row">
-    <div class="col-xs-offset-1 col-xs-10 col-md-offset-1 col-md-10">
+    <div class="col-xs-12 col-md-offset-1 col-md-10">
       <div class="js-confirm-channel js-confirm-sms" style="display:none">
         <p>You're subscribed to <strong class="confirmationType">traffic incidents</strong> in your area!</p>
         <p>Look out for your confirmation text shortly.</p>
